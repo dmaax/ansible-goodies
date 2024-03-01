@@ -1,0 +1,10 @@
+---
+# Tasks file that selects OS-specific tasks based on the target system
+
+- name: Include tasks for Debian-based systems
+  include_tasks: debian.yml
+  when: ansible_distribution == 'Debian' or ansible_os_family == 'Debian'
+
+- name: Include tasks for Red Hat-based systems
+  include_tasks: redhat.yml
+  when: ansible_distribution == 'RedHat' or ansible_os_family == 'RedHat'

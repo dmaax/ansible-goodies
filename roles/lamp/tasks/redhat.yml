@@ -1,0 +1,17 @@
+---
+- name: Install Apache, MySQL and PHP
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - httpd
+    - mysql-server
+    - php
+    - php-mysql
+  notify: restart apache
+
+- name: Ensure Apache is running and enabled on Red Hat
+  service:
+    name: httpd
+    state: started
+    enabled: yes

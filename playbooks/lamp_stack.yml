@@ -1,0 +1,6 @@
+---
+- name: Setup LAMP stack
+  hosts: all
+  become: true
+  roles:
+    - roles/lamp
