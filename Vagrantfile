@@ -14,8 +14,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # Vagrant main VM
-  config.vm.define "mcdevops" do |app|
-    app.vm.hostname = "mcdevops"
+  config.vm.define "ansible" do |app|
+    app.vm.hostname = "ansible"
     app.vm.network :private_network, ip: "192.168.56.10"
   end
 end
