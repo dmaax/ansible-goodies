@@ -1,3 +1,3 @@
 ---
 # Define NGINX service name based on OS family
-nginx_name: "{{ 'nginx' if ansible_os_family == 'RedHat' else 'nginx' }}"
+lemp_nginx_name: "{{ 'nginx' if ansible_os_family == 'RedHat' else 'nginx' }}"

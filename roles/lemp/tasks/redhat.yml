@@ -4,14 +4,14 @@
     name: "{{ item }}"
     state: present
   loop:
-    - "{{ nginx_name }}"
+    - "{{ lemp_nginx_name }}"
     - mysql-server
     - php
     - php-mysql
-  notify: restart nginx
+  notify: Restart nginx
 
 - name: Ensure NGINX is running and enabled on Red Hat
   ansible.builtin.service:
-    name: "{{ nginx_name }}"
+    name: "{{ lemp_nginx_name }}"
     state: started
     enabled: true
