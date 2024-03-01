@@ -7,18 +7,18 @@
   become: true
 
 - name: Install Apache, MySQL and PHP
-  package:
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   loop:
-    - "{{ apache_name }}"
+    - "{{ lamp_apache_name }}"
     - mysql-server
     - php
     - php-mysql
-  notify: restart apache
+  notify: Restart apache
 
 - name: Ensure Apache is running and enabled on Debian
   ansible.builtin.service:
     name: apache2
     state: started
-    enabled: yes
+    enabled: true
