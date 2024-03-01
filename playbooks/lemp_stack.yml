@@ -1,0 +1,6 @@
+---
+- name: Setup LEMP stack
+  hosts: all
+  become: true
+  roles:
+    - lemp

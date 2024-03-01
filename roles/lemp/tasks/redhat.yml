@@ -1,0 +1,17 @@
+---
+- name: Install NGINX, MySQL and PHP
+  ansible.builtin.yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - "{{ nginx_name }}"
+    - mysql-server
+    - php
+    - php-mysql
+  notify: restart nginx
+
+- name: Ensure NGINX is running and enabled on Red Hat
+  ansible.builtin.service:
+    name: "{{ nginx_name }}"
+    state: started
+    enabled: true

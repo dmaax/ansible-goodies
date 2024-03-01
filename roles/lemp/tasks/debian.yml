@@ -1,0 +1,24 @@
+---
+- name: Update package cache
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: dist
+    cache_valid_time: 3600
+  become: true
+
+- name: Install NGINX, MySQL and PHP
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - "{{ nginx_name }}"
+    - mysql-server
+    - php
+    - php-mysql
+  notify: restart nginx
+
+- name: Ensure Nginx is running and enabled on Debian
+  ansible.builtin.service:
+    name: "{{ nginx_name }}"
+    state: started
+    enabled: yes
