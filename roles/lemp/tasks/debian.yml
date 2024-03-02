@@ -6,16 +6,69 @@
     cache_valid_time: 3600
   become: true
 
-- name: Install NGINX, MySQL and PHP
+- name: Install pip, NGINX, MySQL and PHP
   ansible.builtin.package:
     name: "{{ item }}"
     state: present
   loop:
     - "{{ lemp_nginx_name }}"
+    - python3-pip
     - mysql-server
     - php
     - php-mysql
+    - php8.1-fpm
   notify: Restart nginx
+
+- name: Sets Nginx conf file
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/nginx.conf.j2"
+    dest: "/etc/nginx/sites-available/{{ http_conf }}"
+    mode: "0644"
+
+- name: Enables new site
+  ansible.builtin.file:
+    src: "/etc/nginx/sites-available/{{ http_conf }}"
+    dest: "/etc/nginx/sites-enabled/{{ http_conf }}"
+    state: link
+  notify: Reload nginx
+
+- name: Removes "default" site
+  ansible.builtin.file:
+    path: "/etc/nginx/sites-enabled/default"
+    state: absent
+  notify: Reload nginx
+
+- name: Install PyMySQL
+  ansible.builtin.pip:
+    name: pymysql
+    state: present
+
+- name: Create MySQL root user with password
+  community.mysql.mysql_user:
+    name: root
+    password: "{{ lemp_mysql_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Removes all anonymous user accounts
+  community.mysql.mysql_user:
+    name: ''
+    host_all: true
+    login_user: root
+    login_password: "{{ lemp_mysql_password }}"
+    state: absent
+
+- name: Remove test database
+  community.mysql.mysql_db:
+    name: test
+    state: absent
+    login_user: root
+    login_password: "{{ lemp_mysql_password }}"
+
+- name: Sets Up PHP Info Page
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/info.php.j2"
+    dest: "/var/www/html/info.php"
+    mode: "0644"
 
 - name: Ensure Nginx is running and enabled on Debian
   ansible.builtin.service:
