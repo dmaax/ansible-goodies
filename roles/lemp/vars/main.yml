@@ -1,6 +1,7 @@
 ---
 # Define NGINX service name based on OS family
 lemp_nginx_name: "{{ 'nginx' if ansible_os_family == 'RedHat' else 'nginx' }}"
+lemp_php_fpm_sock_address: "{{ 'unix:/run/php-fpm/www.sock' if ansible_os_family == 'RedHat' else 'unix:/var/run/php/php8.1-fpm.sock' }}"
 lemp_mysql_password: "test123@"
 http_host: "localhost"
 http_conf: "localhost.conf"
