@@ -1,3 +1,7 @@
 ---
 # Define NGINX service name based on OS family
 lemp_nginx_name: "{{ 'nginx' if ansible_os_family == 'RedHat' else 'nginx' }}"
+lemp_mysql_password: "test123@"
+http_host: "localhost"
+http_conf: "localhost.conf"
+http_port: "80"
