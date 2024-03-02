@@ -9,8 +9,9 @@ server {
     }
 
     location ~ \.php$ {
-        include snippets/fastcgi-php.conf;
+        include {{ lemp_nginx_include }};
         fastcgi_pass {{ lemp_php_fpm_sock_address }};
+        {{ lemp_fastcgi_param }}
     }
 
     location ~ /\.ht {

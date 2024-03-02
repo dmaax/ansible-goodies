@@ -2,6 +2,8 @@
 # Define NGINX service name based on OS family
 lemp_nginx_name: "{{ 'nginx' if ansible_os_family == 'RedHat' else 'nginx' }}"
 lemp_php_fpm_sock_address: "{{ 'unix:/run/php-fpm/www.sock' if ansible_os_family == 'RedHat' else 'unix:/var/run/php/php8.1-fpm.sock' }}"
+lemp_fastcgi_param: "{{ 'fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;' if ansible_os_family == 'RedHat' else '' }}"
+lemp_nginx_include: "{{ 'fastcgi_params' if ansible_os_family == 'RedHat' else 'snippets/fastcgi-php.conf' }}"
 lemp_mysql_password: "test123@"
 http_host: "localhost"
 http_conf: "localhost.conf"
