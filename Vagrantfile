@@ -18,4 +18,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     app.vm.hostname = "ansible"
     app.vm.network :private_network, ip: "192.168.56.10"
   end
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "playbooks/lemp_stack.yml"
+    ansible.compatibility_mode = "2.0"
+    ansible.version = "2.16.4"
+  end
+
 end
